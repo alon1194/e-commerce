@@ -1,0 +1,47 @@
+{% load static %}
+<style>
+    .custom-nav {
+    width: 470px;     
+    max-width: 90%;    
+    margin: 10px auto; 
+    border-radius: 16px;
+    padding: 5px 10px;
+}
+      .navbar-dark .nav-link {
+        color: #9ca3af;   
+        font-weight: 500;
+    }
+
+    .navbar-dark .nav-link:hover {
+        color: #FFD43B;  
+           transform: scale(1.08);
+           transition: transform 0.9s  
+    }
+
+    .navbar-dark .nav-link.active {
+        color: #FFD43B;
+        font-weight: 600;
+    }
+   
+   
+    
+    
+</style>
+<nav class="navbar navbar-dark bg-dark custom-nav">
+    <div class="container-fluid  d-flex justify-content-center">
+        <a class="navbar-brand" href="{% url 'shop:home' %}"></a>
+        
+        <ul class="navbar-nav d-flex flex-row ">
+           
+            <li class="nav-item me-3 ">
+                <a class="nav-link {% if request.resolver_match.url_name == 'Product' %}active{% endif %}" href="{% url 'shop:Product' %}">product</a>
+            </li>
+       
+            <li class="nav-item me-3 ">
+                <a class="nav-link {% if request.resolver_match.url_name == 'hi' %}active{% endif %}" href="{% url 'shop:hi' %}">Category</a>
+            </li>
+           
+        </ul>
+    </div>
+</nav>
+</nav>
