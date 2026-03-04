@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "shop",
      "shop.products",
      "sass_processor",
+     "userauth"
     
     
     
