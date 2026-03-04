@@ -1,31 +1,37 @@
 from django.db import models
-class Category(models.Model):
-    name = models.CharField(
-    max_length=100,
-    unique=True,
-    db_index=True,
-    help_text="Category name"
- )
-    description = models.TextField(blank=True)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    class Meta:
-     ordering = ["name"]
+class User(models.Model): 
+    UserId = models.AutoField(primary_key = True)
+    Name = models.CharField(max_length = 50)
+    Email = models.EmailField(max_length = 50)
+    Phone = models.IntegerField()
+  
+
     def __str__(self):
-     return self.name
-class Product(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    stock = models.PositiveIntegerField(default=0)
-    category = models.ForeignKey(
-        Category,
-        on_delete=models.PROTECT,
-        related_name="products",
- )
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    class Meta:
-        ordering = ["name"]
-    def __str__(self):
-          self.name
+        return self.Name
+    class meta:
+        ordering =['Name']
+
+
+
+
+
+class Address(models.Model):
+    Address_ID = models.AutoField(primary_key=True)
+    Street = models.CharField(max_length = 50)
+    City = models.CharField(max_length = 50 )
+    State = models.CharField(max_length = 50)
+    Zip_code = models.CharField(max_length = 10)
+    Country = models.CharField()
+    User = models.ForeignKey('User', on_delete = models.CASCADE, null = True , blank = True)
+
+    def __str__(self): 
+        return f"{self.Street},{self.City} {self.Country}"
+    
+    class meta: 
+        ordering = ['User', 'City']
+        
+
+
+
+
+ 
