@@ -1,8 +1,7 @@
-<header class="p-3 mb-3 border-bottom bg-light">
-    <div class="container-fluid mt-5 ">
-         
-      
-    </div>
-     
-</header>
-{% include "partials/navbar.html" %}
+<body>
+    {% include "partials/navbar.html" %}
+
+    <main class="container py-4">
+        {% block content %}{% endblock %}
+    </main>
+</body>
