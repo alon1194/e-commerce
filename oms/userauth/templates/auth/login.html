@@ -1,0 +1,25 @@
+{% extends "base2.html"%}
+{% block title %}Login{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid vh-100 d-flex  justify-content-center align-items-center ">
+    <div class="row w-100">
+        
+        <div class="col-9"></div>   
+
+        <div class="col-3">        
+            <div class="login-box  border rounded p-5">
+                <h2 class = "text-center">Login</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
