@@ -7,5 +7,5 @@ app_name = "userauth"
 
 urlpatterns = [
    path("", CustomLoginView.as_view(), name="login"),
-   path("Register/", RegisterView.as_view(), name = "Register")
+   path("register/", RegisterView.as_view(), name = "register")
 ]
