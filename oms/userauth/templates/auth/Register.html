@@ -15,44 +15,105 @@
   .login-box {
     backdrop-filter: blur(2px);
   }
+  .form-control {
+  border: none;
+  border-bottom: 2px solid #aaa;
+  background: transparent;
+  color: white;
+}
+
+
+.form-control::placeholder {
+  color: #aaa; 
+  opacity: 1;  
+}
+.form-control:focus {
+  outline: none !important;  
+  box-shadow: none !important; 
+  
+}
 </style>
 
 <div class="container-fluid login-bg d-flex justify-content-center align-items-center">
-    <div class=" mb-3" style =" display: flex; ">
-    <h1 class = "text-light  " style = " margin-right:40px; margin-bottom: 20px;  font-family: 'Fredoka', sans-serif; font-size:40px; ">Register to SESI </h1>
-  
-  </div>
-    <div class="login-box border rounded p-4 bg-dark bg-opacity-75 me-5" style = "height:560px; width:400px">
+  <div style="position: absolute; top: 20px; left: 20px;">
+    <a href="javascript:history.back()" style="text-decoration:none; font-size:20px; color:white;">
+        <img src="{% static 'image/back.png' %}" alt="Logo" style="width:28px; height:28px;">
+    </a>
+</div>
+  <div>
+   <div class="mb-3 text-center">
+  <h1 class="text-light"
+      style="margin-right:50px; margin-bottom: 20px; font-family: 'Fredoka', sans-serif; font-size:40px;">
+    Register to SESI
+  </h1>
+</div>
+    <div class="login-box border rounded-5  p-4 bg-dark bg-opacity-75 me-5" style = "height:560px; width:400px">
      
  <form method="post">
   {% csrf_token %}
 
 
-  <div class="mb-3">
-    <label class="form-label text-white">Username</label>
-    {{ form.username }}
-  </div>
 
-  <div class="mb-3">
-    <label class="form-label text-white ">Email</label>
-    {{ form.email }}
-  </div>
+ <div class="mb-3">
+  <label class="form-label text-white ">Username</label>
 
-  <div class="mb-3">
-    <label class="form-label text-white">Birth Date</label>
-    {{ form.birth_date }}
-  </div>
-<div class="mb-3 row align-items-center">
-  <label class="col-sm-4 col-form-label text-white">Password</label>
-  <div class="col-sm-12">
-    {{ form.password1 }}
-  </div>
+  <input 
+    type="text"
+    name="username"
+    class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+   autocomplete="off"
+    required
+  >
+</div>
+
+   <div class="mb-3">
+  <label class="form-label text-white">Email</label>
+
+  <input 
+    type="email"
+    name="email"
+     class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+    autocomplete="email"
+    required
+  >
 </div>
 
   <div class="mb-3">
-    <label class="form-label text-white">Confirm Password</label>
-    {{ form.password2 }}
-  </div>
+  <label class="form-label text-white">Birth-date</label>
+
+  <input 
+    type="date"
+    name="birth_date"
+     class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+   
+    required
+  >
+</div>
+
+<div class="mb-3">
+  <label class="form-label text-white">Password</label>
+
+  <input 
+    type="password"
+    name="password1"
+     class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+   
+    required
+  >
+</div>
+
+   <div class="mb-3">
+  <label class="form-label text-white"> Confirm Password</label>
+
+  <input 
+    type="password"
+    name="password2"
+     class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+    
+    required
+  >
+</div>
+  
 
    <div class="d-flex justify-content-end">
   <button type="submit" class="btn btn-primary  border border-info">Register</button>
@@ -60,25 +121,7 @@
 </form>
     </div>
 </div>
-<script>
-const input = document.getElementById("birth-date");
+</div>
 
-input.addEventListener("input", () => {
-    let value = input.value.replace(/\D/g, '');
-    let formatted = '';
-
-    if (value.length > 0) {
-        formatted += value.substring(0, 2);
-    }
-    if (value.length > 2) {
-        formatted += '-' + value.substring(2, 4);
-    }
-    if (value.length > 4) {
-        formatted += '-' + value.substring(4, 8);
-    }
-
-    input.value = formatted;
-});
-</script>
 
 {% endblock %}

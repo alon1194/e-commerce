@@ -17,33 +17,62 @@
   
     backdrop-filter: blur(2px);
   }
+  .form-control:focus {
+  outline: none !important;  
+  box-shadow: none !important; 
+  
+}
 </style>
 
 <div class="container-fluid  flex-column login-bg d-flex justify-content-center  align-items-center">
+
    <div>
     <h1 class = "text-light   " style = " margin-right:40px; margin-bottom: 20px;  font-family: 'Fredoka', sans-serif">Welcome to SESI </h1>
    </div>
-  <div class="login-box border rounded p-4 bg-dark bg-opacity-75 me-5" style = "height:360px; width:400px">
+  <div class="login-box border rounded-5 p-4 bg-dark bg-opacity-75 me-5" style = "height:360px; width:400px">
     <h3 class="mb-3 text-white text-center" style = " font-family: 'Fredoka', sans-serif">Login</h3>
+ <form method="post">
+          {% csrf_token %}
+     <div class="mb-3">
+  <label class="form-label text-white">Username</label>
 
-    <div class="mb-3">
-      <label class="form-label text-white" style = " font-family: 'Fredoka', sans-serif">Username</label>
-      <input type="text" class="form-control" placeholder="Enter username">
-    </div>
+  <input 
+    type="text"
+    name="username"
+    class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+   autocomplete="off"
+    required
+  >
+</div>
 
-    <div class="mb-3">
-      <label class="form-label text-white"style = " font-family: 'Fredoka', sans-serif">Password</label>
-      <input type="password" class="form-control" placeholder="Enter password">
-    </div>
+   <div class="mb-5">
+  <label class="form-label text-white">Password</label>
+
+  <input 
+    type="password"
+    name="password"
+    class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
+   autocomplete="off"
+    required
+  >
+</div>
+      
 
     <div class="d-flex justify-content-end">
-      <button class=" login-box btn btn-primary"style = " font-family: 'Fredoka', sans-serif">Login</button>
+      <button type = "submit" class=" login-box btn btn-primary"style = " font-family: 'Fredoka', sans-serif">Login</button>
+        {% if form.errors %}
+              <p class="text-danger mt-2">Invalid username or password</p>
+          {% endif %}
+      </form>
     </div>
   </div>
 
+    
   
 <p class="text-light mt-2 text-start" style=" margin-right:50px; font-weight:600; font-size:18px;">
-  Don't have an account? 
+
+    <a href="{% url 'userauth:password_reset' %}" class="text-white  text-decoration-none">  Don't have an account? </a>
+
   <a href="{% url 'userauth:register' %}" class="text-dark  text-decoration-none">Sign up</a>
 </p>
 
