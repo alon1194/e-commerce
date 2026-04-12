@@ -47,7 +47,7 @@
     Register to SESI
   </h1>
 </div>
-    <div class="login-box border rounded-5  p-4 bg-dark bg-opacity-75 me-5" style = "height:560px; width:400px">
+    <div class="login-box border rounded-5  p-4 bg-dark bg-opacity-75 me-5" style = "height:650px; width:400px">
      
  <form method="post">
   {% csrf_token %}
@@ -95,11 +95,18 @@
 
   <input 
     type="password"
+    id="password"
     name="password1"
      class="form-control border-0 border-bottom rounded-0 bg-transparent text-white"
    
     required
   >
+ 
+
+<p id="rule-length" class="text-warning mb-0">• At least 8 characters</p>
+<p id="rule-letter" class="text-warning mb-0">• First character must be a letter</p>
+<p id="rule-capital" class="text-warning mb-0">• First letter must be capital</p>
+<p id="rule-number" class="text-warning mb-0">• At least 2 numbers</p>
 </div>
 
    <div class="mb-3">
@@ -112,16 +119,88 @@
     
     required
   >
+  
 </div>
   
 
    <div class="d-flex justify-content-end">
   <button type="submit" class="btn btn-primary  border border-info">Register</button>
   </div>
+
+{% for error in form.username.errors %}
+  <p class="text-danger">{{ error }}</p>
+{% endfor %}
+
+{% for error in form.password1.errors %}
+  <p class="text-danger">{{ error }}</p>
+{% endfor %}
+
+{% for error in form.password2.errors %}
+  <p class="text-danger">{{ error }}</p>
+{% endfor %}
+ 
 </form>
     </div>
 </div>
 </div>
+<script>
+const passwordInput = document.getElementById("password");
 
+const ruleLength = document.getElementById("rule-length");
+const ruleLetter = document.getElementById("rule-letter");
+const ruleCapital = document.getElementById("rule-capital");
+const ruleNumber = document.getElementById("rule-number");
+
+passwordInput.addEventListener("input", function () {
+
+    const value = passwordInput.value;
+    const firstChar = value.charAt(0);
+
+    // 1. length
+    if (value.length >= 8) {
+        ruleLength.textContent = "✔ At least 8 characters";
+        ruleLength.classList.remove("text-warning");
+        ruleLength.classList.add("text-success");
+    } else {
+        ruleLength.textContent = "• At least 8 characters";
+        ruleLength.classList.remove("text-success");
+        ruleLength.classList.add("text-warning");
+    }
+
+    // 2. first letter is letter
+    if (firstChar.match(/[a-zA-Z]/)) {
+        ruleLetter.textContent = "✔ First character must be a letter";
+        ruleLetter.classList.remove("text-warning");
+        ruleLetter.classList.add("text-success");
+    } else {
+        ruleLetter.textContent = "• First character must be a letter";
+        ruleLetter.classList.remove("text-success");
+        ruleLetter.classList.add("text-warning");
+    }
+
+    // 3. capital letter
+    if (firstChar && firstChar === firstChar.toUpperCase() && firstChar.match(/[a-zA-Z]/)) {
+        ruleCapital.textContent = "✔ First letter must be capital";
+        ruleCapital.classList.remove("text-warning");
+        ruleCapital.classList.add("text-success");
+    } else {
+        ruleCapital.textContent = "• First letter must be capital";
+        ruleCapital.classList.remove("text-success");
+        ruleCapital.classList.add("text-warning");
+    }
+
+    // 4. at least 2 numbers
+    const numbers = value.match(/\d/g);
+    if (numbers && numbers.length >= 2) {
+        ruleNumber.textContent = "✔ At least 2 numbers";
+        ruleNumber.classList.remove("text-warning");
+        ruleNumber.classList.add("text-success");
+    } else {
+        ruleNumber.textContent = "• At least 2 numbers";
+        ruleNumber.classList.remove("text-success");
+        ruleNumber.classList.add("text-warning");
+    }
+});
+</script>
 
 {% endblock %}
