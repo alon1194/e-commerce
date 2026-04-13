@@ -156,7 +156,6 @@ passwordInput.addEventListener("input", function () {
     const value = passwordInput.value;
     const firstChar = value.charAt(0);
 
-    // 1. length
     if (value.length >= 8) {
         ruleLength.textContent = "✔ At least 8 characters";
         ruleLength.classList.remove("text-warning");
@@ -167,7 +166,7 @@ passwordInput.addEventListener("input", function () {
         ruleLength.classList.add("text-warning");
     }
 
-    // 2. first letter is letter
+  
     if (firstChar.match(/[a-zA-Z]/)) {
         ruleLetter.textContent = "✔ First character must be a letter";
         ruleLetter.classList.remove("text-warning");
@@ -178,7 +177,7 @@ passwordInput.addEventListener("input", function () {
         ruleLetter.classList.add("text-warning");
     }
 
-    // 3. capital letter
+   
     if (firstChar && firstChar === firstChar.toUpperCase() && firstChar.match(/[a-zA-Z]/)) {
         ruleCapital.textContent = "✔ First letter must be capital";
         ruleCapital.classList.remove("text-warning");
@@ -189,7 +188,7 @@ passwordInput.addEventListener("input", function () {
         ruleCapital.classList.add("text-warning");
     }
 
-    // 4. at least 2 numbers
+  
     const numbers = value.match(/\d/g);
     if (numbers && numbers.length >= 2) {
         ruleNumber.textContent = "✔ At least 2 numbers";
