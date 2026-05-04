@@ -19,7 +19,7 @@ body {
 
 
 .top-nav {
-    background-color: #1d3f91;
+    background-color: #efeff1;
     width: 100%;
     margin: 0;          
     padding: 20px;
@@ -42,15 +42,18 @@ body {
     align-items: center;
     width: 100%;
     max-width: 650px;
-    gap: 50px; 
-     margin-left:175px; 
+    gap: 15px;
+}
+
+.nav-icons {
+    margin-left: auto; /* pushes icons to right */
 }
 
 /* Search box */
 .search-box {
     display: flex;
     align-items: center;
-    background: #e3e3e3;
+    background: #fffefe;
     border-radius: 15px;
     padding: 5px 16px;
     flex: 1 1 0; 
@@ -94,7 +97,30 @@ body {
     gap:70px;      
     
 }
+.nav_link {
+    transition: transform 0.2s ease, color 0.2s ease;
+    will-change: transform;
+    transform: translateZ(0);
+      border: none !important;
+   
+}
 
+.nav_link:hover {
+    color: #1d1919;
+    transform: scale(1.05);
+}
+
+
+.hover-dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+}
 </style>
 </head>
 <body>
@@ -107,26 +133,44 @@ body {
         <img src="{% static 'image/vector.png' %}" alt="Logo" style="width:28px; height:28px;">
     </a>
 </div>
-    <a href="{% url 'shop:home' %}" class="logo">
-        <img src="{% static 'image/sesi.jpeg' %}" alt="Logo">
+    <a href="{% url 'shop:home' %}" class="logo me-4">
+        <img class = "rounded-3" src="{% static 'image/sesi.jpeg' %}" alt="Logo">
         
     </a>
+    <div class="btn-group hover-dropdown">
+  <button class="btn dropdown-toggle nav_link" type="button" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false">
+     Category
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="#">Home and Kitchen</a></li>
+    <li><a class="dropdown-item" href="#">Men's Clothing</a></li>
+    <li><a class="dropdown-item" href="#">Men's Shoes</a></li>
+    <li><a class="dropdown-item" href="#">Women's Shoes</a></li>
+    <li><a class="dropdown-item" href="#">Women's Shoes</a></li>
+  </ul>
+</div>
+
 
    
-    <div class="search-icon-wrapper">
-        <form class="search-box ">
-            <input type="search" placeholder="Search by film, actors">
-            <button class="btn search-btn" type="submit">
-                <i class="bi bi-search"></i>
-            </button>
-        </form>
-       
-            <i class="bi bi-person-circle"></i>
+  <div class="search-icon-wrapper">
+    
+    <form class="search-box me-3">
+        <input type="search" placeholder="Search by film, actors">
+        <button class="btn search-btn" type="submit">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+
+    <div class="nav-icons d-flex align-items-center gap-2">
+       <a href="{% url 'shop:profile' request.user.id %}" class="me-3">
+            <img style="width:30px; height:30px;" src="{% static 'image/profile.png' %}">
         </a>
-        <nav class="navbar navbar-light bg-light mb-3">
- 
-</nav>
+
+        <a href="{% url 'shop:home' %}">
+            <img style="width:30px; height:30px;" src="{% static 'image/cart.png' %}">
+        </a>
     </div>
+
 </div>
 
  

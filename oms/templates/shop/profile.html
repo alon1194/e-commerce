@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% load static %}
+<style>
+  .nav-pills .nav-link.active {
+    background-color: #979898 !important; 
+    color: white !important; 
+    padding: 5px 10px !important; 
+    width: fit-content !important; 
+    font-size: 0.9rem !important;
+  }
+
+
+  .nav-pills .nav-link {
+    padding: 5px 10px !important;
+    width: fit-content !important;
+    font-size: 0.9rem !important;
+  }
+  .Orders img {
+    height: 60px;   /* adjust as needed */
+    width: auto;    /* keep aspect ratio */
+    margin-left: 100px;
+    
+
+}
+</style>
+ <div class="container mt-4">
+  <div class="row">
+
+    <!-- LEFT SIDEBAR -->
+  <div class="col-md-3">
+  <div class="nav flex-column nav-pills" role="tablist">
+      <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#orders">
+        <img  style="width:30px; height:30px;" src="{% static 'image/sesi.jpeg' %}" class="btn-icon" alt="Orders">
+    Orders
+    </button>
+
+    <button class="nav-link    " data-bs-toggle="pill" data-bs-target="#account">
+      Account
+    </button>
+    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
+      Coupons
+    </button>
+     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
+      Coupons
+    </button>
+     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
+      Coupons
+    </button>
+     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
+      Coupons
+    </button>
+
+  </div>
+</div>
+
+    <!-- RIGHT CONTENT -->
+   <div class="col-md-9">
+  <div class="tab-content">
+
+  
+
+    <div class="tab-pane fade" id="orders">
+      <h3>Your Orders</h3>
+      <p>No orders yet.</p>
+    </div>
+      <div class="tab-pane fade show active" id="account">
+      <h3>Account Details</h3>
+      <p>Username: {{ user_profile.username }}</p>
+      <p>Email: {{ user_profile.email }}</p>
+    </div>
+
+    <div class="tab-pane fade" id="coupons">
+      <h3>Coupons</h3>
+      <p>No coupons available.</p>
+    </div>
+
+  </div>
+</div>
+  </div>
+</div>
+
+
+{% endblock %}
