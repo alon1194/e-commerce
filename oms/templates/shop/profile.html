@@ -4,8 +4,8 @@
   {% load static %}
 <style>
   .nav-pills .nav-link.active {
-   background-color: transparent !important;
-    
+   background-color:#e2e1e1 ;
+   
     padding: 5px 10px !important; 
     width: fit-content !important; 
     font-size: 0.9rem !important;
@@ -17,7 +17,7 @@
     align-items: center;
     gap: 12px;
 
-    padding: 5px 15px !important;
+    padding: 5px 20px !important;
     width: fit-content !important;
     min-width: 220px;
 
@@ -34,7 +34,7 @@
 
 }
 .nav-pills .nav-link:hover {
-   background-color: #c1c7c7 !important;
+     color: #cd1414 !important;
     
 }
 
@@ -46,47 +46,47 @@
     
   <div class="col-md-3">
   <div class="nav flex-column nav-pills" role="tablist">
-<button class="nav-link active"
+<button class="nav-link active mb-2"
         data-bs-toggle="pill" data-bs-target="#orders">
     
-    <img style="width:10px; height:10px; "
-         src="{% static 'image/sesi.jpeg' %}"
+    <img style="width:20px; height:20px; "
+         src="{% static 'image/order.png' %}"
          class="btn-icon"
          alt="Orders">
     
     <span style = "font-size: 18px; "> Your orders</span>
 </button>
 
-    <button class="nav-link " data-bs-toggle="pill" data-bs-target="#account">
-       <img style="width:10px; height:10px;"
-         src="{% static 'image/sesi.jpeg' %}"
+    <button class="nav-link mb-2 " data-bs-toggle="pill" data-bs-target="#account">
+       <img style="width:20px; height:20px;"
+         src="{% static 'image/user.png' %}"
          class="btn-icon"
          alt="Orders">
         <span style = "font-size: 18px;"> Your account</span>
     </button>
-    <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
-       <img style="width:10px; height:10px;"
-         src="{% static 'image/sesi.jpeg' %}"
+    <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#coupons">
+       <img style="width:20px; height:20px;"
+         src="{% static 'image/coupan.png' %}"
          class="btn-icon"
          alt="Orders">
       <span style = "font-size: 18px;  "> Coupans and offers </span>
     </button>
-     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
-       <img style="width:10px; height:10px;"
+     <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#coupons">
+       <img style="width:20px; height:20px;"
+         src="{% static 'image/location.png' %}"
+         class="btn-icon"
+         alt="Orders">
+            <span style = "font-size: 18px;">Address</span>
+    </button>
+     <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#coupons">
+       <img style="width:20px; height:20px;"
          src="{% static 'image/sesi.jpeg' %}"
          class="btn-icon"
          alt="Orders">
             <span style = "font-size: 18px;"> Coupans</span>
     </button>
-     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
-       <img style="width:10px; height:10px;"
-         src="{% static 'image/sesi.jpeg' %}"
-         class="btn-icon"
-         alt="Orders">
-            <span style = "font-size: 18px;"> Coupans</span>
-    </button>
-     <button class="nav-link" data-bs-toggle="pill" data-bs-target="#coupons">
-       <img style="width:10px; height:10px;"
+     <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#coupons">
+       <img style="width:20px; height:20px;"
          src="{% static 'image/sesi.jpeg' %}"
          class="btn-icon"
          alt="Orders">
