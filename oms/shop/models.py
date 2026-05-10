@@ -1,15 +1,18 @@
 from django.db import models
 from django.utils.text import slugify
-class User(models.Model): 
+from django.contrib.auth.models import User
+class Custumer(models.Model): 
     UserId = models.AutoField(primary_key = True)
+    utilizador = models.OneToOneField(User, on_delete=models.CASCADE)
     Name = models.CharField(max_length = 50)
     Email = models.EmailField(max_length = 50)
     Phone = models.IntegerField()
+    Image = models.ImageField(upload_to = 'profile_image/', null = True, blank = True)
   
 
     def __str__(self):
         return self.Name
-    class meta:
+    class Meta:
         ordering =['Name']
 
 
@@ -23,13 +26,13 @@ class Address(models.Model):
     State = models.CharField(max_length = 50)
     Zip_code = models.CharField(max_length = 10)
     Country = models.CharField()
-    User = models.ForeignKey('User', on_delete = models.CASCADE, null = True , blank = True)
+    Custumer = models.ForeignKey('Custumer', on_delete = models.CASCADE, null = True , blank = True)
 
     def __str__(self): 
         return f"{self.Street},{self.City} {self.Country}"
     
     class meta: 
-        ordering = ['User', 'City']
+        ordering = ['Custumer', 'City']
         
 
 class Category(models.Model): 
