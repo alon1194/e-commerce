@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from .forms import CustomUserCreationForm
-from .models import Profile
+from .models import Custumer
 
 class CustomLoginView(LoginView):
     template_name = "auth/login.html"
@@ -26,7 +26,7 @@ class RegisterView(CreateView):
      
         response = super().form_valid(form)
         birth_date = form.cleaned_data['birth_date']
-        Profile.objects.create(user=self.object, birth_date=birth_date)
+        Custumer.objects.create(user=self.object, birth_date=birth_date)
         return response
 
 class CustomPasswordResetView(PasswordResetView):

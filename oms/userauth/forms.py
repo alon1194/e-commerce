@@ -27,4 +27,4 @@ class CustomUserCreationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         # override the password fields properly
         self.fields['password1'].widget.attrs.update({'class': 'form-control w-100'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control w-100'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control w-100'})         
