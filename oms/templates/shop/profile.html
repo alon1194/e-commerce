@@ -46,7 +46,14 @@
     
   <div class="col-md-3">
   <div class="nav flex-column nav-pills" role="tablist">
-<button class="nav-link active mb-2"
+     <button class="nav-link active  mb-2 " data-bs-toggle="pill" data-bs-target="#account">
+       <img style="width:20px; height:20px;"
+         src="{% static 'image/user.png' %}"
+         class="btn-icon"
+         alt="Orders">
+        <span style = "font-size: 18px;"> Your account</span>
+    </button>
+<button class="nav-link mb-2"
         data-bs-toggle="pill" data-bs-target="#orders">
     
     <img style="width:20px; height:20px; "
@@ -57,13 +64,7 @@
     <span style = "font-size: 18px; "> Your orders</span>
 </button>
 
-    <button class="nav-link mb-2 " data-bs-toggle="pill" data-bs-target="#account">
-       <img style="width:20px; height:20px;"
-         src="{% static 'image/user.png' %}"
-         class="btn-icon"
-         alt="Orders">
-        <span style = "font-size: 18px;"> Your account</span>
-    </button>
+   
     <button class="nav-link mb-2" data-bs-toggle="pill" data-bs-target="#coupons">
        <img style="width:20px; height:20px;"
          src="{% static 'image/coupan.png' %}"
@@ -105,11 +106,11 @@
    <div class="col-md-9">
   <div class="tab-content">
 
-    <div class="tab-pane fade show active" id="orders">
+    <div class="tab-pane fade " id="orders">
       <h3>Your Orders</h3>
       <p>No orders yet.</p>
     </div>
-     <div class="tab-pane fade " id="account">
+     <div class="tab-pane fade  show active" id="account">
 
   <h3>Account Details</h3>
 
@@ -120,21 +121,36 @@
     <p>No profile image</p>
   {% endif %}
 
-  <form method="POST" enctype="multipart/form-data" class="mt-3">
+<form method="POST" enctype="multipart/form-data" class="mt-1">
     {% csrf_token %}
 
+    <div class="d-flex justify-content-start" style="margin-top: -30px;">
+      <label for="image-upload" class="btn p-0" style="margin-left:4.5rem;">
+            <img src="{% static 'image/edit.png' %}"
+                 width="20"
+                 height="20">
+        </label>
 
-    <input type="file"
-           name="image"
-           class="form-control mb-2">
+        <input type="file"
+               id="image-upload"
+               name="image"
+               class="d-none">
+    </div>
+    <div>
+
+    <p class ="mt-2">Username: {{ profile.user.username }}</p>
+    <p>Email: {{ profile.user.email }}</p>
+    </div>
+
 
     <button type="submit" class="btn btn-primary btn-sm">
-      Save
+        Save
     </button>
-  </form>
 
-  <p>Username: {{ profile.user.username }}</p>
-  <p>Email: {{ profile.user.email }}</p>
+</form>
+
+ 
+
 
 </div>
 
