@@ -47,7 +47,11 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         if username:
             request.user.username = username
             request.user.save()
-
+    #user phone number
+        phone_number = request.POST.get("phone_number")
+        if phone_number: 
+            profile.phone_number = phone_number
+            profile.save()
         return redirect("shop:profile", pk=self.request.user.id)
 def Product(request):
      return render(request, "shop/profile.html") 
