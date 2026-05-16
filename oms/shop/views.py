@@ -41,6 +41,12 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         if request.FILES.get("image"):
             profile.Image = request.FILES["image"]
             profile.save()
+        
+    # username update
+        username = request.POST.get("username")
+        if username:
+            request.user.username = username
+            request.user.save()
 
         return redirect("shop:profile", pk=self.request.user.id)
 def Product(request):

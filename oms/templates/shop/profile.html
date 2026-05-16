@@ -136,11 +136,20 @@
                name="image"
                class="d-none">
     </div>
-    <div>
+<div class="mt-2 d-flex align-items-center gap-2">
 
-    <p class ="mt-2">Username: {{ profile.user.username }}</p>
-    <p>Email: {{ profile.user.email }}</p>
-    </div>
+    <label class="mb-0">Username</label>
+
+    <input type="text"
+           name="username"
+           value="{{ profile.user.username }}"
+           class="form-control form-control-sm"
+           style="max-width: 180px;">
+
+</div>
+<p>Email: {{ profile.user.email }}</p>
+   
+   
 
 
     <button type="submit" class="btn btn-primary btn-sm">
