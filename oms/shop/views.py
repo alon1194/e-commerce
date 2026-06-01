@@ -2,16 +2,32 @@ from django.views.generic import View
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Custumer
+from .models import Custumer, Product
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 
 
 
-class HomePageView(View):
-    def get(self, request):
-        return render(request, 'shop/home.html')
+
+
+class HomePageView(TemplateView):
+    template_name = "shop/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["featured_products"] = Product.objects.filter(featured=True)[:8]
+        context["new_arrivals"] = Product.objects.order_by("-created_at")[:8]
+
+        return context
+
+
+    
+
+
+
+
 class ProfileView(LoginRequiredMixin, TemplateView):
 
     template_name = "shop/profile.html"
@@ -53,5 +69,3 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             profile.phone_number = phone_number
             profile.save()
         return redirect("shop:profile", pk=self.request.user.id)
-def Product(request):
-     return render(request, "shop/profile.html") 

@@ -1,8 +1,48 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Home page{% endblock %}
+
 {% block content %}
- <h2>Welcome to the Order Management System</h2>
- <p>This is a static example page using the global template.</p>
- <a href="#" class="btn btn-primary">Main action</a>
+
+<h2>Featured Products</h2>
+
+<div class="products">
+    {% for product in featured_products %}
+        <div class="product-card">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+
+            {% if product.stock > 0 %}
+                <button>Add to Cart</button>
+            {% else %}
+                <span style="color:red;">Out of Stock</span>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No featured products yet.</p>
+    {% endfor %}
+</div>
+
+<hr>
+
+<h2>New Arrivals</h2>
+
+<div class="products">
+    {% for product in new_arrivals %}
+        <div class="product-card">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+
+            {% if product.stock > 0 %}
+                <button>Add to Cart</button>
+            {% else %}
+                <span style="color:red;">Out of Stock</span>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No new products yet.</p>
+    {% endfor %}
+</div>
+
 {% endblock %}

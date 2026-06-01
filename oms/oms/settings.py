@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "shop",
-     "shop.products",
+     
      "sass_processor",
      "userauth"
     
