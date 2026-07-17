@@ -12,8 +12,10 @@ class CustomLoginView(LoginView):
     template_name = "auth/login.html"
 
     def get_success_url(self):
-        return reverse_lazy('shop:home')
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return "/admin/"
 
+        return reverse_lazy("shop:home")
 
 
 class RegisterView(CreateView):
