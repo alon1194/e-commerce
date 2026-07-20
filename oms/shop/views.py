@@ -1,6 +1,6 @@
 from django.views.generic import View
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Custumer, Product
 from django.contrib.auth.models import User
@@ -25,6 +25,13 @@ class HomePageView(TemplateView):
 
     
 
+class ProductDetailView(DetailView):
+     model = Product
+     template_name = "shop/Product.html"
+    
+     def get_context_data(self, **kwargs):
+         context = super().get_context_data(**kwargs)
+         return context
 
 
 

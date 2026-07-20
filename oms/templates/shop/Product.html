@@ -1,1 +1,95 @@
-<Text>hi</Text>
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+
+<style>
+    .product-info {
+        position: sticky;
+        top: 20px;
+    }
+
+    @media (max-width: 991.98px) {
+        .product-info {
+            position: static;
+        }
+    }
+   .right-panel{
+    height:100vh;
+    overflow-y:auto;
+    position:sticky;
+    top:0;
+}
+</style>
+
+<div class="container py-5">
+
+    <div class="row g-5">
+
+        <!-- Left Side -->
+        <div class="col-lg-6">
+
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+
+        </div>
+
+        <!-- Right Side -->
+        <div class="col-lg-6">
+            <div class="sticky-top pt-3">
+
+              <div class="right-panel">
+
+                <h2 class="fw-bold">{{ product.product_name }}</h2>
+
+                <h3 class="text-danger mb-3">${{ product.price }}</h3>
+
+                <p>{{ product.description }}</p>
+
+                <button class="btn btn-warning w-100 mb-2">
+                    Add to Cart
+                </button>
+
+                <button class="btn btn-dark w-100">
+                    Buy Now
+                </button>
+
+                <hr>
+
+                <h5>Specifications</h5>
+
+              
+                 <p>Brand: Example</p>
+                <p>Color: Black</p>
+                <p>Stock: In Stock</p>
+                 <p>Brand: Example</p>
+                <p>Color: Black</p>
+                <p>Stock: In Stock</p>
+                 <p>Brand: Example</p>
+                <p>Color: Black</p>
+                <p>Stock: In Stock</p>
+                 <p>Brand: Example</p>
+                <p>Color: Black</p>
+                <p>Stock: In Stock</p>
+                <hr>
+
+                <h5>Reviews</h5>
+
+                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+
+            </div>
+
+        </div>
+</div>
+    </div>
+
+</div>
+
+{% endblock %}

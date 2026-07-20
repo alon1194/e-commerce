@@ -67,4 +67,29 @@ class Product(models.Model):
         return self.product_name
 
 
- 
+class ProductColor(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="colors"
+    )
+    color = models.CharField(max_length=50)
+    image = models.ImageField(upload_to="products/")
+    def __str__(self):
+        return f"{self.product.product_name} - {self.color}"
+    
+    
+    
+class ProductVariant(models.Model):
+   
+    
+    product_color = models.ForeignKey(
+        ProductColor,
+        on_delete=models.CASCADE,
+        related_name="variants"
+    )
+
+    size = models.CharField(max_length=10)
+    stock = models.PositiveIntegerField()
+    def __str__(self):
+        return f"{self.product_color.product.product_name} - {self.product_color.color} - {self.size}"
