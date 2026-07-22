@@ -27,15 +27,14 @@ body {
      justify-content: center;
     align-items: center;
     position: relative; 
+    flex-wrap: wrap;
     
 }
 
 .logo img {
-    height: 60px;   /* adjust as needed */
-    width: auto;    /* keep aspect ratio */
-    margin-left: 100px;
-    
-
+    height: 60px;
+    width: auto;
+    margin-left: 0;
 }
 .search-icon-wrapper {
     display: flex;
@@ -125,6 +124,63 @@ body {
     text-decoration: none;
    
 }
+@media (max-width: 768px) {
+
+    .top-nav {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        gap: -2px;
+    }
+
+    .btn-group.hover-dropdown {
+        display: none;
+    }
+
+    .logo {
+        margin-left: 50px;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    .search-icon-wrapper {
+        flex: 1;
+        max-width: none;
+    }
+
+    .search-box {
+        padding: 3px 8px;
+    }
+
+    .search-box input {
+        font-size: 0.9rem;
+    }
+
+    .nav-icons {
+        margin-left: 0;
+        gap: 8px;
+    }
+
+    .nav-icons img {
+        width: 25px !important;
+        height: 25px !important;
+    }
+
+    .nav-icons small {
+        display: none;   /* Hide username on phones */
+    }
+}
+
+
+@media (max-width: 768px) {
+    .btn-group.hover-dropdown {
+        display: none;
+    }
+}
 </style>
 </head>
 <body>
@@ -137,7 +193,7 @@ body {
         <img src="{% static 'image/vector.png' %}" alt="Logo" style="width:28px; height:28px;">
     </a>
 </div>
-    <a href="{% url 'shop:home' %}" class="logo me-4">
+    <a href="{% url 'shop:home' %}" class="logo ">
         <img class = "rounded-3" src="{% static 'image/sesi.jpeg' %}" alt="Logo">
         
     </a>
@@ -158,14 +214,14 @@ body {
    
   <div class="search-icon-wrapper">
     
-    <form class="search-box me-3">
+    <form class="search-box ">
         <input type="search" placeholder="Search by film, actors">
         <button class="btn search-btn" type="submit">
             <i class="bi bi-search"></i>
         </button>
     </form>
 
-    <div class="nav-icons d-flex align-items-center gap-2">
+    <div class="nav-icons d-flex align-items-center ">
 <a href="{% url 'shop:profile' request.user.id %}"
    class=" mt-3 me-3 d-flex flex-column align-items-center">
 

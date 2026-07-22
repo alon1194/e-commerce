@@ -117,8 +117,10 @@
 
                 {% if product.Image %}
                 <div class="image-container">
+                    <a href="{% url 'shop:Product' product.pk %}">
                     <img src="{{ product.Image.url }}"
                          alt="{{ product.product_name }}">
+                         </a>
                 </div>
                 {% endif %}
 

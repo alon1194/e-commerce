@@ -16,30 +16,153 @@
             position: static;
         }
     }
-   .right-panel{
-    height:100vh;
-    overflow-y:auto;
+  .right-panel{
+
     position:sticky;
-    top:0;
+
+    top:20px;
+
+    max-height:calc(100vh - 40px);
+
+    overflow-y:auto;
+
+}
+.product-image-wrapper{
+    width:100%;
+    max-width:650px;
+    aspect-ratio:4/5;
+    background:#f8f8f8;
+    border-radius:12px;
+    overflow:hidden;
+    margin:0 auto;
+}
+
+.product-image-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+@media (max-width:991px){
+
+    .right-panel{
+        position:static;
+        text-align:center;
+        max-height:none;
+        overflow:visible;
+    }
+
+    .product-image-wrapper{
+        max-width:420px;
+    }
+}
+
+.thumb-img{
+
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    cursor:pointer;
+    border-radius:8px;
+    border:2px solid transparent;
+    transition:.2s;
+
+}
+
+.thumb-img:hover{
+    border-color:#171718;
+}
+
+.active-thumb{
+
+    border-color:#0a0a0a;
+
+}
+@media (max-width:991px){
+
+    .right-panel{
+        position:static;
+        max-height:none;
+        overflow:visible;
+
+    }
+
+    .product-image-wrapper{
+
+        max-width:100%;
+
+        aspect-ratio:1/1;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .thumb-img{
+
+        width:100px;
+
+        height:60px;
+
+    }
+
+}
+
+@media (max-width:576px){
+
+    .thumb-img{
+
+        width:50px;
+
+        height:50px;
+
+    }
+
 }
 </style>
 
-<div class="container py-5">
-
+<div class="container-fluid px-2 py-1">
+  <div class="page-wrapper" style = " margin-left:-20px;">
     <div class="row g-5">
 
         <!-- Left Side -->
-        <div class="col-lg-6">
+     <div class="col-12 col-lg-6 g-5">
 
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
-            <img src="{{ product.Image.url }}" class="img-fluid rounded mb-3" alt="{{ product.product_name }}">
+    <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start">
+
+        <!-- Thumbnails -->
+<div class="d-flex flex-row flex-md-column justify-content-center align-items-center gap-2 me-md-3 mb-3 mb-md-0">
+            <!-- Main Image Thumbnail -->
+            <img src="{{ product.Image.url }}"
+                 class="thumb-img active-thumb"
+                 onclick="changeImage(this)"
+                 alt="Main Image">
+
+            <!-- Other Images -->
+            {% for image in product.varaint_images.all %}
+                <img src="{{ image.variant_image.url }}"
+                     class="thumb-img"
+                     onclick="changeImage(this)"
+                     alt="">
+            {% endfor %}
 
         </div>
+
+        <!-- Main Product Image -->
+<div class="flex-grow-1 d-flex justify-content-center">
+            <div class="product-image-wrapper">
+
+                <img id="mainImage"
+                     src="{{ product.Image.url }}"
+                     alt="{{ product.product_name }}">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
         <!-- Right Side -->
         <div class="col-lg-6">
@@ -89,7 +212,17 @@
         </div>
 </div>
     </div>
-
 </div>
+</div>
+<script>
+function changeImage(element) {
+    document.getElementById("mainImage").src = element.src;
 
+    document.querySelectorAll(".thumb-img").forEach(img => {
+        img.classList.remove("active-thumb");
+    });
+
+    element.classList.add("active-thumb");
+}
+</script>
 {% endblock %}

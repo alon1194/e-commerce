@@ -37,3 +37,112 @@ $font-size-base: 1.1rem;
 @import "node_modules/bootstrap/scss/utilities/api";
 
 // 8. Add additional custom code here
+body{
+    margin:0;
+    overflow-x:hidden;
+}
+
+.top-nav{
+    background:#efeff1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    padding:15px;
+    position:relative;
+    flex-wrap:wrap;
+}
+
+.logo img{
+    height:60px;
+    width:auto;
+    border-radius:10px;
+}
+
+.search-icon-wrapper{
+    display:flex;
+    align-items:center;
+    flex:1;
+    max-width:650px;
+    gap:15px;
+}
+
+.search-box{
+    display:flex;
+    align-items:center;
+    flex:1;
+    background:white;
+    border-radius:15px;
+    padding:8px 15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+.search-box input{
+    border:none;
+    background:transparent;
+    outline:none;
+    flex:1;
+}
+
+.search-btn{
+    border:none;
+    background:none;
+}
+
+.nav-icons{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.nav-icons a{
+    text-decoration:none;
+}
+
+.nav_link:hover{
+    transform:scale(1.05);
+}
+
+.hover-dropdown:hover .dropdown-menu{
+    display:block;
+}
+
+.dropdown-item:focus,
+.dropdown-item:active{
+    background:none !important;
+}
+
+@media (max-width:992px){
+
+    .top-nav{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .logo{
+        text-align:center;
+    }
+
+    .search-icon-wrapper{
+        flex-direction:column;
+        width:100%;
+        max-width:100%;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .nav-icons{
+        justify-content:center;
+    }
+
+    .btn-group{
+        width:100%;
+    }
+
+    .dropdown-toggle{
+        width:100%;
+    }
+
+}
