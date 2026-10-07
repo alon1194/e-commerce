@@ -105,6 +105,9 @@
         height:60px;
 
     }
+    .d-flex.flex-column.flex-md-row {
+        flex-direction: column-reverse !important;
+    }
 
 }
 
@@ -122,11 +125,11 @@
 </style>
 
 <div class="container-fluid px-2 py-1">
-  <div class="page-wrapper" style = " margin-left:-20px;">
+  <div class="page-wrapper" >
     <div class="row g-5">
 
         <!-- Left Side -->
-     <div class="col-12 col-lg-6 g-5">
+     <div class="col-12 col-lg-6 " >
 
     <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start">
 
@@ -169,20 +172,31 @@
             <div class="sticky-top pt-3">
 
               <div class="right-panel">
+                <p>{{ product.description }}</p>
 
                 <h2 class="fw-bold">{{ product.product_name }}</h2>
 
                 <h3 class="text-danger mb-3">${{ product.price }}</h3>
 
-                <p>{{ product.description }}</p>
+                
 
-                <button class="btn btn-warning w-100 mb-2">
+
+
+                <div class = " flex-grow-1 d-flex justify-content-center">
+                    <button class="btn btn-warning w-50 mb-2">
                     Add to Cart
-                </button>
+                    </button>
+                </div>
 
-                <button class="btn btn-dark w-100">
+                <div class = " flex-grow-1 d-flex justify-content-center">
+                   <button class="btn btn-dark w-50">
                     Buy Now
-                </button>
+                   </button>
+                </div>
+                
+                
+
+                
 
                 <hr>
 
