@@ -74,15 +74,34 @@ class ProductColor(models.Model):
         related_name="colors"
     )
     color = models.CharField(max_length=50)
-    image = models.ImageField(upload_to="products/")
+   
     def __str__(self):
         return f"{self.product.product_name} - {self.color}"
     
     
+#for adding multiple image for same color
+class ProductColorImage(models.Model):
+    product_color = models.ForeignKey(
+        ProductColor,
+        on_delete=models.CASCADE,
+        related_name="images"
+    )
+    image = models.ImageField(upload_to="products/")
+
+    def __str__(self):
+        return f"{self.product_color} - Image {self.pk}"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 class ProductVariant(models.Model):
-   
-    
     product_color = models.ForeignKey(
         ProductColor,
         on_delete=models.CASCADE,

@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "shop",
      
      "sass_processor",
-     "userauth"
+     "userauth", 
+      "nested_admin"
     
     
     

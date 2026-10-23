@@ -25,14 +25,53 @@ class HomePageView(TemplateView):
 
     
 
-class ProductDetailView(DetailView):
-     model = Product
-     template_name = "shop/Product.html"
-    
-     def get_context_data(self, **kwargs):
-         context = super().get_context_data(**kwargs)
-         return context
+from django.views.generic import DetailView
+from .models import Product
 
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "shop/Product.html"
+    context_object_name = "product"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        colors = self.object.colors.prefetch_related(
+            "images",
+            "variants",
+        )
+
+        selected_color_id = self.request.GET.get("color")
+
+        if selected_color_id:
+            selected_color = colors.filter(
+                id=selected_color_id
+            ).first()
+        else:
+            selected_color = colors.first()
+
+        context["colors"] = colors
+        context["selected_color"] = selected_color
+
+        # Select a particular image if requested
+        selected_image_id = self.request.GET.get("image")
+        selected_image = None
+
+        if selected_color:
+            color_images = selected_color.images.all()
+
+            if selected_image_id:
+                selected_image = color_images.filter(
+                    id=selected_image_id
+                ).first()
+
+            if not selected_image:
+                selected_image = color_images.first()
+
+        context["selected_image"] = selected_image
+
+        return context
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):

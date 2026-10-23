@@ -1,33 +1,50 @@
-
-
-
+import nested_admin
 from django.contrib import admin
-from .models import Product, ProductColor, ProductVariant, Category, Address, Product_images
+from .models import (
+    Product,
+    ProductColor,
+    ProductColorImage,
+    ProductVariant,
+    Product_images,
+    Category,
+    Address,
+)
 
 
-from django.contrib import admin
-from .models import Product, ProductColor, Product_images
+class ProductColorImageInline(nested_admin.NestedTabularInline):
+    model = ProductColorImage
+    extra = 2
 
 
-class ProductColorInline(admin.TabularInline):
+class ProductVariantInline(nested_admin.NestedTabularInline):
+    model = ProductVariant
+    extra = 3
+
+
+class ProductColorInline(nested_admin.NestedTabularInline):
     model = ProductColor
-    extra = 3
+    extra = 1
+    inlines = [
+        ProductColorImageInline,
+        ProductVariantInline,
+    ]
 
 
-class Product_imagesInline(admin.TabularInline):
+class Product_imagesInline(nested_admin.NestedTabularInline):
     model = Product_images
-    extra = 3
+    extra = 0
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(nested_admin.NestedModelAdmin):
     inlines = [
         ProductColorInline,
         Product_imagesInline,
     ]
-    
+
+
 admin.site.register(Category)
 admin.site.register(Address)
-admin.site.register(ProductColor)
 admin.site.register(ProductVariant)
+admin.site.register(ProductColor)
 admin.site.register(Product_images)

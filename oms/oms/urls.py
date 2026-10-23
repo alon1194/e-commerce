@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+ path("_nested_admin/", include("nested_admin.urls")),
   path("admin/", admin.site.urls),
  path("shop/", include("shop.urls")),
  path("", include("userauth.urls")),

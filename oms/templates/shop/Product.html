@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -6,232 +7,383 @@
 {% block content %}
 
 <style>
-    .product-info {
+    .right-panel {
         position: sticky;
         top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+
+    .product-image-wrapper {
+        width: 100%;
+        max-width: 650px;
+        aspect-ratio: 4 / 5;
+        background: #f8f8f8;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    .product-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .thumb-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 8px;
+        border: 2px solid transparent;
+        transition: .2s;
+    }
+
+    .thumb-img:hover,
+    .active-thumb {
+        border-color: #171718;
+    }
+
+    .color-option {
+        min-width: 65px;
+    }
+
+    .color-option.active {
+        background-color: #212529;
+        color: white;
+    }
+
+    .size-option {
+        min-width: 48px;
     }
 
     @media (max-width: 991.98px) {
-        .product-info {
+        .right-panel {
             position: static;
+            max-height: none;
+            overflow: visible;
+        }
+
+        .product-image-wrapper {
+            max-width: 100%;
+            aspect-ratio: 1 / 1;
         }
     }
-  .right-panel{
 
-    position:sticky;
-
-    top:20px;
-
-    max-height:calc(100vh - 40px);
-
-    overflow-y:auto;
-
-}
-.product-image-wrapper{
-    width:100%;
-    max-width:650px;
-    aspect-ratio:4/5;
-    background:#f8f8f8;
-    border-radius:12px;
-    overflow:hidden;
-    margin:0 auto;
-}
-
-.product-image-wrapper img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-@media (max-width:991px){
-
-    .right-panel{
-        position:static;
-        text-align:center;
-        max-height:none;
-        overflow:visible;
+    @media (max-width: 768px) {
+        .thumb-img {
+            width: 65px;
+            height: 65px;
+        }
     }
 
-    .product-image-wrapper{
-        max-width:420px;
+    @media (max-width: 576px) {
+        .thumb-img {
+            width: 50px;
+            height: 50px;
+        }
     }
-}
-
-.thumb-img{
-
-    width:80px;
-    height:80px;
-    object-fit:cover;
-    cursor:pointer;
-    border-radius:8px;
-    border:2px solid transparent;
-    transition:.2s;
-
-}
-
-.thumb-img:hover{
-    border-color:#171718;
-}
-
-.active-thumb{
-
-    border-color:#0a0a0a;
-
-}
-@media (max-width:991px){
-
-    .right-panel{
-        position:static;
-        max-height:none;
-        overflow:visible;
-
-    }
-
-    .product-image-wrapper{
-
-        max-width:100%;
-
-        aspect-ratio:1/1;
-
-    }
-
-}
-
-@media (max-width:768px){
-
-    .thumb-img{
-
-        width:100px;
-
-        height:60px;
-
-    }
-    .d-flex.flex-column.flex-md-row {
-        flex-direction: column-reverse !important;
-    }
-
-}
-
-@media (max-width:576px){
-
-    .thumb-img{
-
-        width:50px;
-
-        height:50px;
-
-    }
-
-}
 </style>
 
-<div class="container-fluid px-2 py-1">
-  <div class="page-wrapper" >
-    <div class="row g-5">
+<div class="container-fluid px-2 py-3">
+    <div class="page-wrapper">
+        <div class="row g-4">
 
-        <!-- Left Side -->
-     <div class="col-12 col-lg-6 " >
+            <!-- LEFT SIDE: PRODUCT IMAGES -->
+            <div class="col-12 col-lg-6">
 
-    <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start">
+                <div class="d-flex flex-column flex-md-row
+                            align-items-center align-items-md-start">
 
-        <!-- Thumbnails -->
-<div class="d-flex flex-row flex-md-column justify-content-center align-items-center gap-2 me-md-3 mb-3 mb-md-0">
-            <!-- Main Image Thumbnail -->
-            <img src="{{ product.Image.url }}"
-                 class="thumb-img active-thumb"
-                 onclick="changeImage(this)"
-                 alt="Main Image">
+                    <!-- THUMBNAILS -->
+                    <div
+                        class="d-flex flex-row flex-md-column
+                               justify-content-center align-items-center
+                               gap-2 me-md-3 mb-3 mb-md-0"
+                        id="thumbnailContainer"
+                    >
 
-            <!-- Other Images -->
-            {% for image in product.varaint_images.all %}
-                <img src="{{ image.variant_image.url }}"
-                     class="thumb-img"
-                     onclick="changeImage(this)"
-                     alt="">
-            {% endfor %}
+                        {% if selected_color and selected_color.images.all %}
 
-        </div>
+                            {% for image in selected_color.images.all %}
+                                <a
+                                    href="?color={{ selected_color.id }}&image={{ image.id }}"
+                                    class="d-inline-block"
+                                    aria-label="View image {{ forloop.counter }}"
+                                >
+                                    <img
+                                        src="{{ image.image.url }}"
+                                        class="thumb-img
+                                        {% if selected_image.id == image.id %}
+                                            active-thumb
+                                        {% endif %}"
+                                        alt="{{ product.product_name }} - {{ selected_color.color }}"
+                                    >
+                                </a>
+                            {% endfor %}
 
-        <!-- Main Product Image -->
-<div class="flex-grow-1 d-flex justify-content-center">
-            <div class="product-image-wrapper">
+                        {% elif product.Image %}
+                            <img
+                                src="{{ product.Image.url }}"
+                                class="thumb-img active-thumb"
+                                onclick="changeImage(this)"
+                                alt="{{ product.product_name }}"
+                            >
+                        {% endif %}
 
-                <img id="mainImage"
-                     src="{{ product.Image.url }}"
-                     alt="{{ product.product_name }}">
+                    </div>
 
-            </div>
+                    <!-- MAIN IMAGE -->
+                    <div class="flex-grow-1 d-flex justify-content-center w-100">
+                        <div class="product-image-wrapper">
 
-        </div>
+                            <img
+                                id="mainImage"
+                                src="{% if selected_image %}{{ selected_image.image.url }}{% elif product.Image %}{{ product.Image.url }}{% endif %}"
+                                alt="{{ product.product_name }}"
+                            >
 
-    </div>
+                        </div>
+                    </div>
+                    
 
-</div>
-
-        <!-- Right Side -->
-        <div class=" col-12 col-lg-6">
-            <div class="sticky-top pt-3">
-
-              <div class="right-panel">
-             <p style="font-size: 14px;">{{ product.description }}</p>
-            <h3 class="text-dark mb-3" style="font-size: 23px; font-weight: 500;">
-                 {{ product.price }}€ <span style="font-size: 14px; font-weight: normal;">Price inclusive VAT and duties</span>
-            </h3>
-                <h3 style = "font-size:17px; font-weight:bold;">Size</h3>
-                
-                
-
-
-
-                <div class = " flex-grow-1 d-flex justify-content-center">
-                    <button class="btn btn-warning w-50 mb-2">
-                    Add to Cart
-                    </button>
                 </div>
+                       <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                           <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                            <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                             <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                              <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                               <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                    <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                           <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                            <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                             <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                              <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                               <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+            </div>
 
-                
-                
+            <!-- RIGHT SIDE: PRODUCT DETAILS -->
+            <div class="col-12 col-lg-6">
+                <div class="right-panel pt-3">
 
-                
+                    <h2 class="fs-4 fw-semibold mb-3">
+                        {{ product.product_name }}
+                    </h2>
 
-                <hr>
+                    <p class="small">
+                        {{ product.description }}
+                    </p>
 
-                <h5>Specifications</h5>
+                    <h3 class="text-dark mb-4"
+                        style="font-size: 23px; font-weight: 500;">
+                        {{ product.price }}€
+                        <span class="small fw-normal">
+                            Price inclusive VAT and duties
+                        </span>
+                    </h3>
 
-              
-                 <p>Brand: Example</p>
-                <p>Color: Black</p>
-                <p>Stock: In Stock</p>
-                 <p>Brand: Example</p>
-                <p>Color: Black</p>
-                <p>Stock: In Stock</p>
-                 <p>Brand: Example</p>
-                <p>Color: Black</p>
-                <p>Stock: In Stock</p>
-                 <p>Brand: Example</p>
-                <p>Color: Black</p>
-                <p>Stock: In Stock</p>
-                <hr>
+                    <!-- COLOR SELECTOR -->
+                    <h3 class="fs-6 fw-bold">
+                        Color:
+                        {% if selected_color %}
+                            <span class="fw-normal">
+                                {{ selected_color.color }}
+                            </span>
+                        {% endif %}
+                    </h3>
 
-                <h5>Reviews</h5>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
 
-                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                        {% for color in colors %}
+                            <a
+                                href="?color={{ color.id }}"
+                                class="btn color-option
+                                {% if selected_color.id == color.id %}
+                                    btn-dark active
+                                {% else %}
+                                    btn-outline-dark
+                                {% endif %}"
+                            >
+                                {{ color.color }}
+                            </a>
+                        {% empty %}
+                            <p class="text-muted">
+                                No colors available.
+                            </p>
+                        {% endfor %}
 
+                    </div>
+
+                    <!-- SIZE SELECTOR -->
+                    <h3 class="fs-6 fw-bold">Size</h3>
+
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+
+                        {% if selected_color %}
+
+                            {% for variant in selected_color.variants.all %}
+                                {% if variant.stock > 0 %}
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-dark size-option"
+                                        data-size="{{ variant.size }}"
+                                        data-variant-id="{{ variant.id }}"
+                                        onclick="selectSize(this)"
+                                    >
+                                        {{ variant.size }}
+                                    </button>
+                                {% else %}
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-secondary size-option"
+                                        disabled
+                                    >
+                                        {{ variant.size }}
+                                    </button>
+                                {% endif %}
+                            {% empty %}
+                                <p class="text-muted">
+                                    No sizes available for this color.
+                                </p>
+                            {% endfor %}
+
+                        {% else %}
+                            <p class="text-muted">
+                                Select a color to see available sizes.
+                            </p>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- ADD TO CART -->
+                    <form method="post" action="#">
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="variant_id"
+                            id="selectedVariant"
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning w-100 mb-3"
+                            id="addToCartButton"
+                            disabled
+                        >
+                            Select a size
+                        </button>
+                    </form>
+
+                    <hr>
+
+                    <!-- SPECIFICATIONS -->
+                    <h5>Specifications</h5>
+
+                    <p>
+                        <strong>Product:</strong>
+                        {{ product.product_name }}
+                    </p>
+
+                    <p>
+                        <strong>Category:</strong>
+                        {{ product.category }}
+                    </p>
+
+                    <p>
+                        <strong>Color:</strong>
+                        {% if selected_color %}
+                            {{ selected_color.color }}
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </p>
+
+                    {% if selected_color %}
+                        <p>
+                            <strong>Available stock for this color:</strong>
+                            {% with variants=selected_color.variants.all %}
+                                {% for variant in variants %}
+                                    {{ variant.size }}: {{ variant.stock }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Out of stock
+                                {% endfor %}
+                            {% endwith %}
+                        </p>
+                    {% endif %}
+
+                    <hr>
+
+                    <!-- REVIEWS -->
+                    <h5>Reviews</h5>
+                    <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                     <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                      <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                       <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                        <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                         <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+
+                          <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                           <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                            <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                             <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                              <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                               <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                         <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                           <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                            <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                             <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                              <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                               <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+
+
+                </div>
             </div>
 
         </div>
-</div>
     </div>
 </div>
-</div>
+
 <script>
-function changeImage(element) {
-    document.getElementById("mainImage").src = element.src;
+    // Change the main image when a thumbnail is clicked.
+    function changeImage(element) {
+        document.getElementById("mainImage").src = element.src;
 
-    document.querySelectorAll(".thumb-img").forEach(img => {
-        img.classList.remove("active-thumb");
-    });
+        document.querySelectorAll(".thumb-img").forEach(img => {
+            img.classList.remove("active-thumb");
+        });
 
-    element.classList.add("active-thumb");
-}
+        element.classList.add("active-thumb");
+    }
+
+    // Select a size and remember its variant ID.
+    function selectSize(button) {
+        document.querySelectorAll(".size-option").forEach(option => {
+            option.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        document.getElementById("selectedVariant").value =
+            button.dataset.variantId;
+
+        const addToCartButton = document.getElementById("addToCartButton");
+        addToCartButton.disabled = false;
+        addToCartButton.textContent = "Add to Cart";
+    }
 </script>
+
 {% endblock %}
