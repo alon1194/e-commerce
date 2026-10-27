@@ -84,6 +84,27 @@
             height: 50px;
         }
     }
+    .color-image-option {
+    display: inline-flex;
+    width: 75px;
+    height: 75px;
+    padding: 3px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.color-image-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.color-image-option.selected {
+    border: 2px solid #222;
+}
 </style>
 
 <div class="container-fluid px-2 py-3">
@@ -158,15 +179,7 @@
                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
                                   <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                                    <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                           <p>⭐⭐⭐⭐⭐ Excellent product!</p> <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                            <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                             <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                              <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                               <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                                <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                                 <p>⭐⭐⭐⭐⭐ Excellent product!</p>
-                                  <p>⭐⭐⭐⭐⭐ Excellent product!</p>
+                                  
             </div>
 
             <!-- RIGHT SIDE: PRODUCT DETAILS -->
@@ -181,13 +194,16 @@
                         {{ product.description }}
                     </p>
 
-                    <h3 class="text-dark mb-4"
-                        style="font-size: 23px; font-weight: 500;">
-                        {{ product.price }}€
+                   <div class="d-flex align-items-center gap-3">
+                        <h3 class="text-dark mb-0"
+                            style="font-size: 23px; font-weight: 500;">
+                            {{ product.price }}€
+                        </h3>
+
                         <span class="small fw-normal">
                             Price inclusive VAT and duties
                         </span>
-                    </h3>
+                    </div>
 
                     <!-- COLOR SELECTOR -->
                     <h3 class="fs-6 fw-bold">
@@ -201,22 +217,23 @@
 
                     <div class="d-flex flex-wrap gap-2 mb-4">
 
-                        {% for color in colors %}
+                       {% for color in colors %}
                             <a
                                 href="?color={{ color.id }}"
-                                class="btn color-option
-                                {% if selected_color.id == color.id %}
-                                    btn-dark active
-                                {% else %}
-                                    btn-outline-dark
-                                {% endif %}"
+                                class="color-image-option
+                                {% if selected_color.id == color.id %}selected{% endif %}"
+                                title="{{ color.color }}"
+                                aria-label="Select {{ color.color }}"
                             >
-                                {{ color.color }}
+                                {% if color.swatch_image %}
+                                    <img
+                                        src="{{ color.swatch_image.url }}"
+                                        alt="{{ color.color }}"
+                                    >
+                                {% else %}
+                                    <span>{{ color.color }}</span>
+                                {% endif %}
                             </a>
-                        {% empty %}
-                            <p class="text-muted">
-                                No colors available.
-                            </p>
                         {% endfor %}
 
                     </div>
@@ -226,101 +243,89 @@
 
                     <div class="d-flex flex-wrap gap-2 mb-4">
 
-                        {% if selected_color %}
-
+                       
+                                        
                             {% for variant in selected_color.variants.all %}
                                 {% if variant.stock > 0 %}
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-dark size-option"
-                                        data-size="{{ variant.size }}"
-                                        data-variant-id="{{ variant.id }}"
-                                        onclick="selectSize(this)"
-                                    >
+                                    <a href="?color={{ selected_color.id }}&size={{ variant.id }}"
+                                    class="btn btn-outline-dark size-option
+                                    {% if request.GET.size == variant.id|stringformat:'s' %}
+                                        active
+                                    {% endif %}">
                                         {{ variant.size }}
-                                    </button>
+                                    </a>
                                 {% else %}
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-secondary size-option"
-                                        disabled
-                                    >
+                                    <button type="button"
+                                            class="btn btn-outline-secondary size-option"
+                                            disabled>
                                         {{ variant.size }}
                                     </button>
                                 {% endif %}
-                            {% empty %}
-                                <p class="text-muted">
-                                    No sizes available for this color.
-                                </p>
                             {% endfor %}
 
-                        {% else %}
-                            <p class="text-muted">
-                                Select a color to see available sizes.
-                            </p>
-                        {% endif %}
+                            {% for variant in selected_color.variants.all %}
+                                {% if request.GET.size == variant.id|stringformat:'s' %}
+                                    {% if variant.stock > 0 %}
+                                    <p class="w-100 text-success mb-0 small">
+                                         {{ variant.stock }} left in stock
+                                    </p>
+                                    {% else %}
+                                        <p>Out of stock</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                                                
+
 
                     </div>
 
                     <!-- ADD TO CART -->
-                    <form method="post" action="#">
-                        {% csrf_token %}
+                            <form method="post" action="#">
+                    {% csrf_token %}
 
-                        <input
-                            type="hidden"
-                            name="variant_id"
-                            id="selectedVariant"
-                        >
+                    <input
+                        type="hidden"
+                        name="variant_id"
+                        value="{{ request.GET.size }}"
+                    >
 
-                        <button
-                            type="submit"
-                            class="btn btn-warning w-100 mb-3"
-                            id="addToCartButton"
-                            disabled
-                        >
-                            Select a size
-                        </button>
-                    </form>
+                    <button
+                        type="submit"
+                        class="btn btn-dark w-50 mb-3"
+                        {% if not request.GET.size %}disabled{% endif %}
+                    >
+                        Add to Cart
+                    </button>
+                </form>
+                        <div class="col-lg-7">
+                            <div class="ratio ratio-1x1 border">
+                                    <a href="#moreInfo"class="d-flex 
+                                    w-100 text-decoration-none mt-2 " style="color: #3c639d;">
+                                        
+                                        <img
+                                            src="{% static 'image/ship.png' %}"
+                                            alt=""
+                                            width="30"
+                                            height="30"
+                                         class="me-2">
+                                        Free Shipping (Order >= 15.00$)
+                                         
+                                         <img
+                                            src="{% static 'image/arrow.png' %}"
+                                            alt=""
+                                            width="15"
+                                            height="15"
+                                            class="ms-auto mt-2">
+                                    </a>  
+                                        
+                             </div>
+                        </div>
+                        
+          
 
-                    <hr>
 
-                    <!-- SPECIFICATIONS -->
-                    <h5>Specifications</h5>
 
-                    <p>
-                        <strong>Product:</strong>
-                        {{ product.product_name }}
-                    </p>
-
-                    <p>
-                        <strong>Category:</strong>
-                        {{ product.category }}
-                    </p>
-
-                    <p>
-                        <strong>Color:</strong>
-                        {% if selected_color %}
-                            {{ selected_color.color }}
-                        {% else %}
-                            Not specified
-                        {% endif %}
-                    </p>
-
-                    {% if selected_color %}
-                        <p>
-                            <strong>Available stock for this color:</strong>
-                            {% with variants=selected_color.variants.all %}
-                                {% for variant in variants %}
-                                    {{ variant.size }}: {{ variant.stock }}{% if not forloop.last %}, {% endif %}
-                                {% empty %}
-                                    Out of stock
-                                {% endfor %}
-                            {% endwith %}
-                        </p>
-                    {% endif %}
-
-                    <hr>
-
+                   
                     <!-- REVIEWS -->
                     <h5>Reviews</h5>
                     <p>⭐⭐⭐⭐⭐ Excellent product!</p>

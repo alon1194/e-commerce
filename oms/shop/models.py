@@ -74,6 +74,11 @@ class ProductColor(models.Model):
         related_name="colors"
     )
     color = models.CharField(max_length=50)
+    swatch_image = models.ImageField(
+        upload_to="color_swatches/",
+        null=True,
+        blank=True
+    )
    
     def __str__(self):
         return f"{self.product.product_name} - {self.color}"

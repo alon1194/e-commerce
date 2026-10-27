@@ -11,6 +11,7 @@ urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path("Product/<int:pk>/", ProductDetailView.as_view(), name="Product"),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
+
       
  
  
